@@ -1,6 +1,7 @@
 import { Lunarade } from '@lunarade/core';
 import * as express from 'express';
 import * as pug from 'pug';
+import * as sass from 'node-sass';
 import * as fs from 'fs';
 import * as request from 'request-promise-native';
 import { ObjectID, Db, MongoClient } from 'mongodb';
@@ -48,22 +49,22 @@ export default class Application {
 
         const configFileName = `${process.env.USERPROFILE || process.env.HOME}/.lunarade-cli`;
         this.configuration = JSON.parse(fs.readFileSync(configFileName).toString());
+        this.loadModules();
 
         const bodyparser = require('body-parser');
         const cookieparser = require('cookie-parser');
-        const indexFile = fs.readFileSync('../index.pug');
+        const indexFile = fs.readFileSync('../_index.pug');
         const precompiledIndexFile = pug.compile(indexFile.toString(), { basedir: '..' });
 
         this.initialized = new Promise(r => this.initialize = r);
 
         const compiledIndexFile = () => {
             if (!this.isProduction)
-                return pug.compile(fs.readFileSync('../index.pug').toString(), { basedir: '..' });
+                return pug.compile(fs.readFileSync('../_index.pug').toString(), { basedir: '..' });
             else
                 return precompiledIndexFile;
         };
 
-        this.loadModules();
         this.connectDb();
 
         this.app.listen(this.configuration.port, this.configuration.host);
@@ -342,7 +343,6 @@ export default class Application {
         this.app.use(express.static('../public'));
     }
     private loadModules() {
-        // Load modules
         console.log('Loading modules...');
         const moduleDir = '../node_modules/@lunarade';
         let appendJs = '';
@@ -353,19 +353,30 @@ export default class Application {
         for (let module of modules) {
             console.log(`Loading ${module}...`);
             try {
-                if (fs.existsSync(`${moduleDir}/${module}/dist/index.ts`))
-                    try { require(`../${moduleDir}/${module}/dist/index`)(this); } catch (e) { console.log(e); }
+                if (fs.existsSync(`${moduleDir}/${module}/dist/index.js`))
+                    try { require(`../${moduleDir}/${module}/dist/index`).default(this); } catch (e) { console.log(e); }
                 if (fs.existsSync(`${moduleDir}/${module}/src/client/components`))
                     for (let component of fs.readdirSync(`${moduleDir}/${module}/src/client/components`))
                         try {
                             try { appendJs += ';\n' + fs.readFileSync(`${moduleDir}/${module}/src/client/components/${component}/${component}.js`).toString(); } catch (e) { console.log(e); }
+                            try { appendCss += '\n' + sass.renderSync({ file: `${moduleDir}/${module}/src/client/components/${component}/${component}.scss` }).css; } catch (e) { console.log(e); }
+                            try {
+                                if (fs.existsSync(`${moduleDir}/${module}/src/client/components/${component}/${component}.pug`))
+                                    appendPug.push(`${moduleDir}/${module}/src/client/components/${component}/${component}.pug`.replace(/^\.\./, ''));
+                            } catch (e) { console.log(e); }
                         } catch (e) { console.log(e); }
             } catch (e) { console.log(e); }
         }
 
         console.log('Bundling components...');
+        fs.writeFileSync('../public/_a_bundle.js', appendJs);
+        fs.writeFileSync('../public/_a_styles.css', appendCss);
         fs.writeFileSync('../public/bundle.js', fs.readFileSync('../public/_bundle.js').toString() + appendJs);
         fs.writeFileSync('../public/styles.css', fs.readFileSync('../public/_styles.css').toString() + appendCss);
+
+        let indexPug = fs.readFileSync('../index.pug').toString();
+        let indentation = indexPug.match(/([ ]*)#DYNAMIC_INCLUDE_PLACEHOLDER/)[1];
+        fs.writeFileSync('../_index.pug', indexPug.replace(/#DYNAMIC_INCLUDE_PLACEHOLDER/, appendPug.map(s => `include ${s}`).join('\n' + indentation)));
     }
     private async connectDb() {
         let dbPort = this.configuration.db.port;

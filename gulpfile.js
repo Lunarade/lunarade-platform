@@ -6,14 +6,15 @@ const $ = require("gulp-load-plugins")({ lazy: false });
 
 gulp.task('default', async () => {
     await del('dist/**/*');
-    buildJs();
-    buildCss();
-    $.watch('public/js/**/*.js', buildJs);
-    $.watch('public/**/*.scss', buildCss);
+    buildPlatformJs();
+    buildPlatformCss();
+    $.watch('node_modules/@lunarade/module-*/src/client/components/**/*.js', { follow: true, followSymlinks: true }, buildModuleJs);
+    $.watch('public/js/**/*.js', buildPlatformJs);
+    $.watch('public/**/*.scss', buildPlatformCss);
 });
 
-function buildJs() {
-    console.log('Bunding js...');
+function buildPlatformJs() {
+    console.log('Building platform js...');
     return gulp.src([
         'public/js/lib/jquery-3.2.1.min.js',
         'public/js/lib/Chart.bundle.min.js',
@@ -26,10 +27,35 @@ function buildJs() {
     ])
         .pipe($.concat('_bundle.js'))
         .pipe(gulp.dest('public'))
-        .on('finish', () => console.log('Done.'));
+        .on('finish', async () => {
+            await concatJsBundles();
+            console.log('Done.');
+        });
 }
 
-function buildCss() {
+async function buildModuleJs() {
+    console.log('Building module js...');
+    await new Promise(r => gulp.src([
+        'node_modules/@lunarade/module-*/src/client/components/**/*.js'
+    ])
+        .pipe($.concat('_a_bundle.js'))
+        .pipe(gulp.dest('public'))
+        .on('finish', r));
+    await concatJsBundles();
+    console.log('Done.');
+}
+
+async function concatJsBundles() {
+    await new Promise(r => gulp.src([
+        'public/_bundle.js',
+        'public/_a_bundle.js'
+    ])
+        .pipe($.concat('bundle.js'))
+        .pipe(gulp.dest('public'))
+        .on('finish', r));
+}
+
+function buildPlatformCss() {
     console.log('Building css...');
     let result = sass.renderSync({
         file: 'public/css/index.scss'

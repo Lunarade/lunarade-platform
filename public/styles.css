@@ -7044,127 +7044,6 @@ a.text-dark:hover, a.text-dark:focus {
     display: block;
     margin: 30px auto; }
 
-.landing {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  overflow: auto; }
-  .landing .container {
-    width: 1050px;
-    margin: auto; }
-    .landing .container code {
-      background: #525252;
-      border-radius: 5px;
-      display: block;
-      padding: 10px 20px;
-      border: 1px solid black;
-      margin-bottom: 15px;
-      color: #afd7e9; }
-    .landing .container .top-bar {
-      overflow: auto; }
-      .landing .container .top-bar .nav {
-        float: right;
-        margin: 15px 0; }
-        .landing .container .top-bar .nav .option {
-          font-size: 17px;
-          color: black; }
-          .landing .container .top-bar .nav .option:last-child {
-            margin-right: 0px !important; }
-          .landing .container .top-bar .nav .option.circled {
-            background: #006dac;
-            color: white;
-            border-radius: 20px;
-            padding: 5px 10px;
-            margin: -5px 0; }
-        .landing .container .top-bar .nav .separator {
-          width: 15px;
-          border-left: 1px solid #0733491a; }
-      .landing .container .top-bar .small-logo img.logo {
-        width: 30px;
-        margin: 12px 10px 10px 10px; }
-      .landing .container .top-bar .small-logo span {
-        font-size: 23px;
-        margin: 10px 0;
-        display: inline-block;
-        vertical-align: top; }
-    .landing .container .big-picture img.logo {
-      width: 220px;
-      vertical-align: top; }
-    .landing .container .big-picture .title {
-      font-size: 100px;
-      display: inline-block;
-      vertical-align: top; }
-      .landing .container .big-picture .title .big {
-        font-size: 100px; }
-      .landing .container .big-picture .title .small {
-        font-size: 29px; }
-    .landing .container .section .section-title {
-      text-transform: uppercase;
-      font-size: 20px; }
-    .landing .container .section .footer {
-      padding: 20px 0; }
-      .landing .container .section .footer .copy {
-        display: inline-block;
-        vertical-align: top; }
-      .landing .container .section .footer .divider {
-        display: inline-block;
-        vertical-align: top;
-        border-right: 1px solid #00000040;
-        height: 19px;
-        margin: 0 10px; }
-    .landing .container .section .package {
-      display: inline-block;
-      width: 240px;
-      margin-right: 20px;
-      border: 1px solid rgba(0, 0, 0, 0.211765);
-      padding: 10px;
-      vertical-align: top;
-      border-radius: 5px;
-      background: white; }
-      .landing .container .section .package:last-child {
-        margin-right: 0px; }
-      .landing .container .section .package .price {
-        font-size: 30px;
-        text-align: center;
-        margin: 20px 0 0px 0; }
-      .landing .container .section .package .timespan {
-        text-align: center;
-        margin-bottom: 10px;
-        font-style: italic; }
-      .landing .container .section .package .title {
-        font-size: 20px;
-        text-align: center;
-        margin-bottom: 10px;
-        text-transform: uppercase; }
-      .landing .container .section .package .btn {
-        display: block; }
-      .landing .container .section .package .features {
-        margin-bottom: 10px; }
-        .landing .container .section .package .features .feature {
-          border-bottom: 1px solid #c9c9c9;
-          padding: 10px; }
-          .landing .container .section .package .features .feature:last-child {
-            border: none; }
-    .landing .container .section .tool {
-      text-align: center;
-      display: inline-block;
-      width: 240px;
-      border: 1px solid rgba(0, 0, 0, 0.211765);
-      background: white;
-      border-radius: 5px;
-      padding: 10px;
-      vertical-align: top;
-      height: 310px;
-      margin-right: 20px; }
-      .landing .container .section .tool:last-child {
-        margin-right: 0px; }
-      .landing .container .section .tool .title {
-        font-size: 19px;
-        margin-bottom: 10px; }
-      .landing .container .section .tool .description {
-        margin-bottom: 10px;
-        height: 100px; }
-
 .email-history .history-limit {
   display: inline-block;
   width: 40px;
@@ -12020,3 +11899,124 @@ html {
   100% {
     -webkit-transform: rotate(360deg);
     transform: rotate(360deg); } }
+
+.landing {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  overflow: auto; }
+  .landing .container {
+    width: 1050px;
+    margin: auto; }
+    .landing .container code {
+      background: #525252;
+      border-radius: 5px;
+      display: block;
+      padding: 10px 20px;
+      border: 1px solid black;
+      margin-bottom: 15px;
+      color: #afd7e9; }
+    .landing .container .top-bar {
+      overflow: auto; }
+      .landing .container .top-bar .nav {
+        float: right;
+        margin: 15px 0; }
+        .landing .container .top-bar .nav .option {
+          font-size: 17px;
+          color: black; }
+          .landing .container .top-bar .nav .option:last-child {
+            margin-right: 0px !important; }
+          .landing .container .top-bar .nav .option.circled {
+            background: #006dac;
+            color: white;
+            border-radius: 20px;
+            padding: 5px 10px;
+            margin: -5px 0; }
+        .landing .container .top-bar .nav .separator {
+          width: 15px;
+          border-left: 1px solid #0733491a; }
+      .landing .container .top-bar .small-logo img.logo {
+        width: 30px;
+        margin: 12px 10px 10px 10px; }
+      .landing .container .top-bar .small-logo span {
+        font-size: 23px;
+        margin: 10px 0;
+        display: inline-block;
+        vertical-align: top; }
+    .landing .container .big-picture img.logo {
+      width: 220px;
+      vertical-align: top; }
+    .landing .container .big-picture .title {
+      font-size: 100px;
+      display: inline-block;
+      vertical-align: top; }
+      .landing .container .big-picture .title .big {
+        font-size: 100px; }
+      .landing .container .big-picture .title .small {
+        font-size: 29px; }
+    .landing .container .section .section-title {
+      text-transform: uppercase;
+      font-size: 20px; }
+    .landing .container .section .footer {
+      padding: 20px 0; }
+      .landing .container .section .footer .copy {
+        display: inline-block;
+        vertical-align: top; }
+      .landing .container .section .footer .divider {
+        display: inline-block;
+        vertical-align: top;
+        border-right: 1px solid #00000040;
+        height: 19px;
+        margin: 0 10px; }
+    .landing .container .section .package {
+      display: inline-block;
+      width: 240px;
+      margin-right: 20px;
+      border: 1px solid rgba(0, 0, 0, 0.211765);
+      padding: 10px;
+      vertical-align: top;
+      border-radius: 5px;
+      background: white; }
+      .landing .container .section .package:last-child {
+        margin-right: 0px; }
+      .landing .container .section .package .price {
+        font-size: 30px;
+        text-align: center;
+        margin: 20px 0 0px 0; }
+      .landing .container .section .package .timespan {
+        text-align: center;
+        margin-bottom: 10px;
+        font-style: italic; }
+      .landing .container .section .package .title {
+        font-size: 20px;
+        text-align: center;
+        margin-bottom: 10px;
+        text-transform: uppercase; }
+      .landing .container .section .package .btn {
+        display: block; }
+      .landing .container .section .package .features {
+        margin-bottom: 10px; }
+        .landing .container .section .package .features .feature {
+          border-bottom: 1px solid #c9c9c9;
+          padding: 10px; }
+          .landing .container .section .package .features .feature:last-child {
+            border: none; }
+    .landing .container .section .tool {
+      text-align: center;
+      display: inline-block;
+      width: 240px;
+      border: 1px solid rgba(0, 0, 0, 0.211765);
+      background: white;
+      border-radius: 5px;
+      padding: 10px;
+      vertical-align: top;
+      height: 310px;
+      margin-right: 20px; }
+      .landing .container .section .tool:last-child {
+        margin-right: 0px; }
+      .landing .container .section .tool .title {
+        font-size: 19px;
+        margin-bottom: 10px; }
+      .landing .container .section .tool .description {
+        margin-bottom: 10px;
+        height: 100px; }

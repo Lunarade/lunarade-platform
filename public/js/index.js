@@ -16,6 +16,12 @@ window._states = {
         templateUrl: '/app.html',
         controller: 'app'
     },
+    ['app.dashboard']: {
+        url: '/?fpt?',
+        templateUrl: '/dashboard.html',
+        controller: 'dashboard',
+        data: { pageTitle: pageTitle('Dashboard') }
+    },
     ['app.iam']: {
         url: '/iam',
         templateUrl: '/iam.html',

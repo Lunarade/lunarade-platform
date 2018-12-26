@@ -1,0 +1,42 @@
+@import '../../../../css/variables';
+.topbar {
+    height: $top-bar-height;
+    box-sizing: border-box;
+    border-bottom: 1px solid $border-line-color;
+    background: white;
+    line-height: $top-bar-height;
+    .logo {
+        width: 30px;
+        height: 30px;
+        display: inline-block;
+        vertical-align: middle;
+        margin-left: 20px;
+        margin-top: 12px;
+    }
+    .title {
+        display: inline-block;
+        vertical-align: top;
+        margin-left: 15px;
+        font-size: $font-very-large;
+        .version {
+            margin-left: 15px;
+            font-size: $font-small;
+            color: #bfbfbf;
+        }
+    }
+    .right-section {
+        float: right;
+        height: 100%;
+        line-height: initial;
+        .user-image {
+            width: 35px;
+            height: 35px;
+            border-radius: 100%;
+            margin: 9px 20px 0 0;
+            display: inline-block;
+            background-size: cover;
+            cursor: pointer;
+            background-position: 50% 50%;
+        }
+    }
+}

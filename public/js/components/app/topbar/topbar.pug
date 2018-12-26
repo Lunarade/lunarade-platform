@@ -1,0 +1,11 @@
+.topbar(ng-controller="topbar")
+    img.logo(ng-src="{{ isChristmas ? 'logo_christmas.png' : 'logo.png' }}")
+    span.title Lunarade
+        span.version=version
+        a.new-version.ml-2(ng-show="showNewVersion" href="#" target="_self" onclick="event.preventDefault(); location.reload();") A new version is available, click to refresh!
+    .right-section
+        .user-image(data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ng-style="{ 'background-image': 'url(' + (user().imageUrl || '/noimg.jpg') + ')' }")
+        .dropdown-menu.dropdown-menu-right
+            button.dropdown-item.disabled Settings
+            .dropdown-divider
+            button.dropdown-item(ng-click="logout()") Sign out

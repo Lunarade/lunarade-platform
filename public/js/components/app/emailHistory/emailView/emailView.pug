@@ -1,0 +1,49 @@
+script(type="text/ng-template" id="/email-view.html")
+    #viewEmailModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='gridSystemModalLabel')
+        .modal-dialog.modal-lg(role='document')
+            .modal-content
+                .modal-header
+                    h5#gridSystemModalLabel.modal-title {{displayEmailSubject}}
+                    button.close(type='button', data-dismiss='modal', aria-label='Close')
+                    span(aria-hidden='true') ×
+                .modal-body
+                    ul.nav.nav-pills
+                        li.nav-item
+                            a.nav-link(ui-sref=".tab({ emailId: id, tab: 'html' })" data-target="#html") 
+                                i.fas.fa-code.mr-2
+                                | HTML
+                        li.nav-item
+                            a.nav-link(ui-sref=".tab({ emailId: id, tab: 'text' })" data-target="#text") 
+                                i.fas.fa-align-left.mr-2
+                                | Text
+                        li.nav-item
+                            a.nav-link(ui-sref=".tab({ emailId: id, tab: 'attachments' })" data-target="#attachments") 
+                                i.fas.fa-paperclip.mr-2
+                                | Attatchments
+                                span.badge.badge-secondary.ml-2(ng-show="emailContents.attachments.length") {{ emailContents.attachments.length }}
+                        li.nav-item
+                            a.nav-link(ui-sref=".tab({ emailId: id, tab: 'info' })" data-target="#info") 
+                                i.fas.fa-info-circle.mr-2
+                                | Info
+                    .tab-content.ui-view(style="transition: none !important")
+                .modal-footer
+                    button.btn.btn-primary(type='button', data-dismiss='modal') Close
+script(type="text/ng-template" id="/email-view-tab.html")
+    #html.tab-pane.fade(role="tabpanel")
+        p(ng-show="$parent.displayEmailBodyHtml" ng-bind-html="$parent.displayEmailBodyHtml" style="padding-top: 15px;")
+        .spinner(ng-show="!$parent.displayEmailBodyHtml")
+    #text.tab-pane.fade(role="tabpanel")
+        p(ng-show="$parent.displayEmailBodyText" ng-bind-html="$parent.displayEmailBodyText" style="padding: 12px;")
+        .spinner(ng-show="!$parent.displayEmailBodyText")
+    #attachments.tab-pane.fade(role="tabpanel")
+        p(ng-show="$parent.displayEmailBodyText" style="padding: 12px;")
+            span(ng-show="!$parent.emailContents.attachments.length") No attachments
+            a.attachment(ng-click="$parent.openAttachment(attachment)" ng-repeat="attachment in $parent.emailContents.attachments") 
+                span.name {{ attachment.name }}
+                br
+                span.type {{ attachment.type }}
+        .spinner(ng-show="!$parent.displayEmailBodyText")
+    #info.tab-pane.fade(role="tabpanel")
+        div(style="padding: 12px;")
+            .spinner(ng-show="!lastEmailHistoryInfo")
+            json-formatter(ng-show="lastEmailHistoryInfo" json="lastEmailHistoryInfo" open="1")

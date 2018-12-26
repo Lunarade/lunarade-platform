@@ -1,0 +1,61 @@
+script(type="text/ng-template" id="/emails.html")
+    .email-history
+        .page-title(ng-show="settings.showHeader")
+            span 
+                | Email History
+                .spinner.small(ng-show="initialized && fetching" style="margin-left: 13px !important; position: relative; top: 2px;")
+                span.stopped-refreshing(ng-show="showInactiveMessage") Stopped refreshing due to inactivity
+            .subtitle The list updates every 5 seconds and orders by date descending.
+        form.query-container.mb-3(style="padding: 0 20px" ng-submit="loop()" ng-style="{ 'margin-top': !settings.showHeader ? '18px' : '0px' }")
+            .input-group-container
+                span.input-group
+                    .input-group-prepend
+                        span#basic-addon1.input-group-text Limit
+                    input.form-control.emails-search-term(ng-model="emailHistoryLimit" type='number', aria-label='Search', min="1" ng-change="assertEmailLimitGtOne()" aria-describedby='basic-addon1')
+            .input-group-container
+                span.input-group
+                    .input-group-prepend
+                        span#basic-addon1.input-group-text 
+                            | Query
+                            a.fa.fa-question-circle.text-secondary(style="text-decoration: none; margin: 2px 0 0 5px;" target="_blank" href="https://mandrill.zendesk.com/hc/en-us/articles/205583137-How-do-I-search-my-outbound-activity-in-Mandrill-")
+                    input.form-control.emails-search-term(ng-model="settings.query" type='text', aria-label='Search', placeholder="tags:env_dev AND email:me@example.com AND sender:hello@pobu.ca" aria-describedby='basic-addon1')
+            button(type="submit" style="display: none;")
+        .table-container
+            table.table.table-bordered.emails-table
+                thead
+                    tr
+                        th(scope="col") state
+                        th(scope="col") env
+                        th(scope="col") db
+                        th(scope="col") company
+                        th(scope="col") recipient
+                        th(scope="col") from
+                        th(scope="col") subject
+                        th(scope="col") time
+                        th(scope="col" title="opens")
+                            i.fa.fa-envelope-open
+                        th(scope="col" title="clicks")
+                            i.fa.fa-mouse-pointer
+                        th(scope="col") actions
+                tbody
+                    tr(ng-repeat="email in emails")
+                        td(ng-style="{ color: email.state == 'sent' ? 'green' : 'red' }" style="font-weight: bold;") {{ email.state }}
+                        td(ng-attr-title="{{email.env}}") {{ email.env }}
+                        td(ng-attr-title="{{email.db}}") {{ email.db }}
+                        td(ng-attr-title="{{email.company}}")
+                            a(ng-if="email.company" ui-sref="app.companies.view.info({ id: email.company, cenv: email.env })") {{ email.company }}
+                            span(ng-if="!email.company") -
+                        td(ng-attr-title="{{email.email}}") {{ email.email }}
+                        td(ng-attr-title="{{email.sender}}") {{ email.sender }}
+                        td(ng-attr-title="{{email.subject}}") {{ email.subject }}
+                        td(ng-attr-title="{{tsToDate(email.ts)}}" style="text-align: right") {{ email.timeAgo }}
+                        td {{ email.opens }}
+                        td {{ email.clicks }}
+                        td(style="text-align: center;")
+                            a.btn.btn-primary.btn-sm(style="padding: 4px 12px;" tabindex='0' ui-sref=".view.tab({ tab: 'html', emailId: email._id })")
+                                i.fas.fa-search.mr-2(style="margin-top: -1px")
+                                | Inspect
+            .fetching-message(ng-show="!initialized" style="text-align: center; color: gray; padding-top: 50px;") 
+                .spinner
+            .no-data-message(ng-show="initialized && !emails.length") No results
+        .ui-view

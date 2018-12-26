@@ -1,0 +1,34 @@
+script(type="text/ng-template" id="/login.html")
+    form.login-container.form-group(ng-submit="submit()" name="login")
+        img.logo(src="logo-large.png")
+        span.title Lunarade
+        span.version=version
+        span.message(ng-show="page == 'login'")
+            | Sign in with your 
+            b Admin Panel 
+            | credentials
+        span.message(ng-show="page == 'forgotPassword'")  Enter your email to receive a reset link
+        span.message(ng-show="page == 'resetPassword'")  Enter a new password
+        span.message(ng-show="page == 'forgotPasswordSuccess'")  Reset link sent!
+        span.message(ng-show="page == 'resetPasswordSuccess'")  Your password has been reset!
+        input.email.form-control(type="email" ng-model="$parent.email" ng-if="page != 'forgotPasswordSuccess' && page != 'resetPassword' && page != 'resetPasswordSuccess'" required placeholder="Email")
+        input.password.form-control(type="password" ng-model="$parent.password" required placeholder="Password" ng-if="page == 'login' || page == 'resetPassword'")
+        div(style="overflow: auto; text-align: center;")
+            a(href="#" ng-show="page == 'login'" ng-click="page = 'forgotPassword'; $event.preventDefault()") Forgot password
+            a(href="#" ng-show="page == 'resetPassword' || page == 'forgotPassword' || page == 'forgotPasswordSuccess' || page == 'resetPasswordSuccess'" ng-click="page = 'login'; $event.preventDefault()" style="padding-bottom: 20px; display: inline-block;") Back to sign in form
+        button.login-button.btn.btn-primary.md-2(type="submit" ng-show="page != 'forgotPasswordSuccess' && page != 'resetPasswordSuccess'") {{page == 'login' ? 'Sign in' : 'Reset password'}}
+        #wrongPasswordAlert.mb-4.alert.alert-danger.alert-dismissible.fade.show(ng-show="erroMessage" style="width: 80%; margin: -10px auto 20px;" role='alert')
+            span {{error}}
+            button.close(type='button', ng-click="erroMessage = false")
+                span(aria-hidden='true') ×
+    #sessionExpiredModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalLabel', aria-hidden='true')
+        .modal-dialog(role='document')
+            .modal-content
+                .modal-header
+                    h5#sessionExpiredModalTitle.modal-title You have been signed out
+                    button.close(type='button', data-dismiss='modal', aria-label='Close')
+                        span(aria-hidden='true') ×
+                .modal-body
+                    | Your session has expired. Please sign in again.
+                .modal-footer
+                    button.btn.btn-primary.btn-custom-close(type='button' data-dismiss='modal') Ok

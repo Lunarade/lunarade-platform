@@ -1,0 +1,103 @@
+html(lang="en" ng-app="app" ng-controller="main as main")
+    head
+        meta(charset="utf-8")
+        base(href="/")
+        title(ng-bind="$state.current.data.pageTitle") Testing & monitoring OSS, products & services
+        meta(name="description" content="Testing & monitoring OSS, products & services.")
+        meta(name="viewport" content="width=device-width, initial-scale=1") 
+        link(href="https://fonts.googleapis.com/css?family=Noto+Sans:400,400i,700,700i&amp;subset=greek,greek-ext" rel="stylesheet")
+        link(rel="icon" href="/logo-large.png?" + version)
+        link(rel="stylesheet" href="/styles.css?" + version)
+        script window.intercomSettings = { app_id: "ic2a3a0a" };
+        script (function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',intercomSettings);}else{var d=document;var i=function(){i.c(arguments)};i.q=[];i.c=function(args){i.q.push(args)};w.Intercom=i;function l(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/ic2a3a0a';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);}if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})()
+        script(async src="/js/ace/ace.js")
+        style.
+            * {
+               font-family: 'Noto Sans', sans-serif; 
+            }
+            .tmp-hidden {
+                opacity: 0;
+                pointer-events: none;
+            }
+            .ng-cloak {
+                display: none;
+            }
+            .loader {
+                width: 100%;
+                height: 100%;
+                position: fixed;
+                top: 0;
+                left: 0;
+                opacity: 0;
+                transition: all .1s linear;
+                background: #f3f3f3;
+                z-index: 1000;
+            }
+            .loader .logo {
+                transition: all .1s linear;
+                opacity: 0;
+                display: block;
+                width: 120px;
+                margin: auto;
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%,-50%);
+                margin-top: -20px;
+            }
+            .loading-line {
+                width: 180px;
+                height: 5px;
+                background: #00000021;
+                margin: 100px auto;
+                display: block;
+                border-radius: 14px;
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+            }
+            .loading-progress {
+                animation: load 3.5s linear forwards;
+                width: 0%;
+                height: 100%;
+                background: #073349;
+                border-radius: 14px;
+            }
+            @keyframes load { from { width: 0% } to { width: 100% } }
+            .app-container {
+                height: 100%;
+                transition: all .5s linear;
+            }
+            .hidden-loader {
+                opacity: 0 !important;
+                pointer-events: none;
+            }
+            .hidden-loader .loading-progress {
+                animation: none !important;
+            }
+    body.ng-cloak
+        .ui-view.global-view(ng-animate="'view'")
+        script(type="text/ng-template" id="/app.html")
+            .app-container
+                include /public/js/components/app/topbar/topbar.pug
+                .app-body-container
+                    include /public/js/components/app/sidebar/sidebar.pug
+                    .viewport.ui-view(ng-animate="'view'")
+        include /public/js/components/app/iam/iam.pug
+        include /public/js/components/app/emailHistory/emailHistory.pug
+        include /public/js/components/app/emailHistory/emailView/emailView.pug
+        include /public/js/components/login/login.pug
+        include /public/js/components/landing/landing.pug
+        #DYNAMIC_INCLUDE_PLACEHOLDER
+        .loader(ng-class="{ 'hidden-loader': !main.showLoader }" style="opacity: 1;")
+            img.logo(src="logo-large.png")
+            .loading-line
+                .loading-progress
+        script!='var __version = "' + version + '"'
+        script.
+            var logoForLoader = new Image();
+            logoForLoader.src = 'logo-large.png';
+            logoForLoader.onload = function() { document.querySelector('.loader .logo').style.opacity = 1; }
+        script="window.__csrf = '" + (csrfToken||'') + "';"
+        script(async src="/bundle.js?" + version)

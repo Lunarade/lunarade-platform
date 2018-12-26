@@ -1,0 +1,19 @@
+{
+    "compileOnSave": true,
+    "compilerOptions": {
+        "target": "es6",
+        "module": "commonjs",
+        "noImplicitAny": false,
+        "removeComments": false,
+        "moduleResolution": "node",
+        "sourceMap": true,
+        "experimentalDecorators": true,
+        "outDir": "./dist"
+    },
+    "exclude": [
+        "dist"
+    ],
+    "include": [
+        "server/**/*.ts"
+    ]
+}

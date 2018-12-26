@@ -1,0 +1,165 @@
+@import '../../../../css/variables';
+.vodafone {
+    height: 100%;
+    .page-title {
+        margin-bottom: 0px;
+    }
+    .content {
+        height: calc(100% - 71px);
+        h5 {
+            margin: 20px;
+        }
+        table .btn {
+            padding: 3px 9px;
+        }
+        .view * {
+            font-size: 10px !important;
+        }
+        .view {
+            display: inline-block;
+            width: 50%;
+            overflow: auto;
+            padding: 10px 20px;
+            height: 330px;
+        }
+        .activityTab {
+            display: inline-block;
+            width: 50%;
+            box-sizing: border-box;
+            border-right: 1px solid #e9ecef;
+            .url {
+                white-space: nowrap;
+                display: inline-block;
+                width: 145px;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                vertical-align: bottom;
+            }
+            .activity-search {
+                width: 100%;
+                font-size: 11px;
+                padding: 5px 5px;
+            }
+            .activity-pool {
+                max-height: 300px;
+                min-height: 300px;
+                overflow: auto;
+                border: 1px solid #e9ecef;
+            }
+            .request-time-ago {
+                color: gray;
+                font-size: 11px;
+            }
+            .activity-request:hover {
+                background: #e4e4e4;
+                cursor: pointer;
+            }
+            .activity-request.selected {
+                background: #dadada;
+            }
+            .activity-request {
+                padding: 3px 10px;
+            }
+        }
+        #userTable,
+        #roleTable,
+        #permissionTable {
+            background: white;
+            width: calc(100% - 40px);
+            margin: 20px;
+            display: block;
+            border: 1px;
+            box-shadow: 0 2px 2px #0000000a;
+            i {
+                font-size: 11px;
+            }
+            .btn-toolbar {
+                flex-wrap: unset;
+            }
+            td {
+                padding: 0.75rem;
+                vertical-align: baseline;
+            }
+            th[title] {
+                cursor: help;
+            }
+        }
+        .table-striped tbody tr:nth-of-type(odd) {
+            background-color: rgba(0, 0, 0, 0.01);
+        }
+        .filters-pane {
+            width: 230px;
+            display: inline-block;
+            vertical-align: top;
+            .custom-checkbox {
+                margin-left: 20px;
+                input,
+                label {
+                    cursor: pointer;
+                }
+            }
+        }
+        .pool-pane {
+            vertical-align: top !important;
+            width: calc(100% - 270px) !important;
+            margin-top: 20px !important;
+            & * {
+                font-size: $font-very-small;
+            }
+        }
+        .request-pool * {
+            font-size: $font-very-small;
+        }
+        .chart-container {
+            height: 260px;
+            padding: 0 20px;
+            .spinner,
+            .spinner:after {
+                width: 8em;
+                height: 8em;
+            }
+            .canvas-wrapper {
+                position: relative;
+                height: 100%;
+                width: 100%;
+                max-height: 100%;
+                max-width: 100%;
+                canvas {
+                    height: 100%;
+                    width: 100%;
+                    max-height: 100%;
+                    max-width: 100%;
+                }
+            }
+        }
+        .table-container {
+            width: calc(50% - 40px);
+            display: inline-block;
+            vertical-align: top;
+            margin: 0 0 0 20px;
+            padding: 0px;
+            td:last-child {
+                text-align: right;
+            }
+            i.fa.fa-filter {
+                font-size: 10px;
+                vertical-align: middle;
+                cursor: pointer;
+                position: relative;
+                top: -1px;
+                color: gray;
+            }
+        }
+        .env-nav {
+            padding: 18px 24px;
+            border-bottom: 1px solid $border-line-color;
+            height: 70px;
+            .nav-item {
+                .badge {
+                    height: 16px;
+                    margin-left: 5px;
+                }
+            }
+        }
+    }
+}

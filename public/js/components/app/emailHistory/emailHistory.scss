@@ -1,0 +1,48 @@
+@import '../../../../css/variables';
+.email-history {
+    .history-limit {
+        display: inline-block;
+        width: 40px;
+        margin: 0 7px;
+        text-align: center;
+    }
+    .emails-table * {
+        white-space: nowrap !important;
+        text-overflow: ellipsis !important;
+        vertical-align: middle !important;
+        overflow: hidden !important;
+        max-width: 140px;
+    }
+    .no-data-message {
+        text-align: center;
+        padding-top: 30px;
+    }
+    .stopped-refreshing {
+        color: red;
+        font-size: 14px !important;
+        margin-left: 10px;
+    }
+    .query-container {
+        .input-group-container {
+            display: inline-block;
+            width: calc(100% - 125px);
+            &:first-child {
+                width: 125px !important;
+                padding-right: 20px;
+            }
+        }
+    }
+    .attachment {
+        border: 1px solid $border-line-color;
+        display: inline-block;
+        padding: 10px;
+        border-radius: 4px;
+        box-shadow: 0 1px 2px #00000012;
+        vertical-align: top;
+        cursor: pointer;
+        .type {
+            font-size: $font-very-small;
+            color: gray;
+        }
+    }
+}

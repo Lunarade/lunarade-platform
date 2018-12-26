@@ -1,0 +1,135 @@
+script(type="text/ng-template" id="/iam.html")
+    .vodafone
+        .page-title
+            span IAM
+        .content
+            .env-nav
+                ui.nav.nav-pills
+                    li.nav-item
+                        a.nav-link.active.show(data-toggle="tab" role="tab" href="#iamUserTab" ng-click="refreshTables()" onclick="$(this).parent().siblings().children().removeClass('active show'); event.preventDefault();") 
+                            i.fas.fa-users.mr-2
+                            | Users
+                    li.nav-item
+                        a.nav-link(data-toggle="tab" role="tab" href="#iamRolesTab" ng-click="refreshTables()" onclick="$(this).parent().siblings().children().removeClass('active show'); event.preventDefault();") 
+                            i.fas.fa-id-badge.mr-2
+                            | Roles
+                    li.nav-item
+                        a.nav-link(data-toggle="tab" role="tab" href="#iamPermissionsTab" ng-click="refreshTables()" onclick="$(this).parent().siblings().children().removeClass('active show'); event.preventDefault();") 
+                            i.fas.fa-certificate.mr-2
+                            | Permissions
+            .tab-content
+                    .tab-pane.fade.active.show#iamUserTab(role="tabpanel")
+                        .fetching-message(ng-show="showSpinner" style="text-align: center; color: gray; padding-top: 50px;") 
+                            .spinner
+                        div(ng-show="!showSpinner")
+                            div(style="overflow: auto")
+                                .btn.btn-primary(style="margin: 20px 20px 0; float: right;" ng-click="addUser()") 
+                                    i.fas.fa-user-plus(style="font-size: 12px")
+                                    | &nbsp; Add user
+                            table#userTable.table.table-striped.table-bordered.user-select-none(ng-repeat="table in tables" ng-if="data.users.length")
+                                thead
+                                    tr
+                                        th ID
+                                        th Image
+                                        th First name
+                                        th Last name
+                                        th Email
+                                        th Role
+                                        th Permissions
+                                        th(title="Pageloads")  PL
+                                        th(title="API calls made by the client or cli") AC
+                                        th Last seen
+                                        th Status
+                                        th
+                                tbody
+                                    tr(ng-repeat="user in data.users")
+                                        td(style="color: gray; font-size: 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 30px;" ng-attr-title="{{user._id}}") {{ user._id }}
+                                        td(style="max-width: 40px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;") {{ user.imageUrl }}
+                                        td(ng-class="{ af: $first }") {{ user.firstName }}
+                                        td {{ user.lastName }}
+                                        td {{ user.email }}
+                                        td {{ user.role }}
+                                        td(style="padding: 0px 7px !important; vertical-align: inherit; text-align: center; white-space: nowrap; width: 1%;")
+                                            .custom-control(style="display: inline-block; padding: 0px;")
+                                                select.custom-select.selectpicker(multiple data-selected-text-format="count" data-live-search="true" data-actions-box="true" ng-change="updateUserPermissions(user)" ng-attr-id="userPermissions{{user._id}}" ng-model="user.permissions")
+                                                    option(ng-attr-value="{{ permission.name }}" ng-repeat="permission in data.permissions") {{ permission.title }} - {{ permission.name }}
+                                        td {{ numberToUnit(user.pageloads || 0) }}
+                                        td {{ numberToUnit(user.apiCalls || 0) }}
+                                        td(ng-attr-title="{{datetime(user.lastSeen)}}" ng-style="{ color: user.timeAgo == 'Just now' ? 'green' : user.timeAgo == 'Never' ? 'gray' : 'inherit' }") {{ user.timeAgo }}
+                                        td {{ user.status }}
+                                        td(style="text-align: center; white-space: nowrap; width: 1%;") 
+                                            button.btn.btn-sm.btn-primary.delete-button(style="margin-top: -2px;" type="button" data-toggle="modal" data-target="#activitiesModal" ng-click="loadUserActivities(user)")
+                                                i.fas.fa-bolt
+                                                | &nbsp; ACTIVITY
+                            .no-users-message(ng-if="!data.users.length && !showSpinner" style="text-align: center") No users found.
+                    .tab-pane.fade#iamRolesTab(role="tabpanel")
+                        .fetching-message(ng-show="showSpinner" style="text-align: center; color: gray; padding-top: 50px;") 
+                            .spinner
+                        div(ng-show="!showSpinner")
+                            div(style="overflow: auto")
+                                .btn.btn-primary(style="margin: 20px 20px 0; float: right;" ng-click="addRole()") 
+                                    i.fas.fa-id-badge(style="font-size: 12px")
+                                    | &nbsp; Add role
+                            table#roleTable.table.table-striped.table-bordered.user-select-none(ng-repeat="table in tables" ng-if="data.roles.length")
+                                thead
+                                    tr
+                                        th ID
+                                        th Name
+                                        th Description
+                                        th Permissions
+                                tbody
+                                    tr(ng-repeat="role in data.roles")
+                                        td(style="color: gray; font-size: 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 30px;" ng-attr-title="{{role._id}}") {{ role._id }}
+                                        td(ng-class="{ af: $first }") {{ role.name }}
+                                        td {{ role.description }}
+                                        td(style="padding: 0px 7px !important; vertical-align: inherit; text-align: center; white-space: nowrap; width: 1%;")
+                                            .custom-control(style="display: inline-block; padding: 0px;")
+                                                select.custom-select.selectpicker(multiple data-selected-text-format="count" data-live-search="true" data-actions-box="true" ng-change="updateRolePermissions(role)" ng-attr-id="userPermissions{{role._id}}" ng-model="role.permissions")
+                                                    option(ng-attr-value="{{ permission.name }}" ng-repeat="permission in data.permissions") {{ permission.title }} - {{ permission.name }}
+                            .no-users-message(ng-if="!data.roles.length && !showSpinner" style="text-align: center") No roles found.
+                    .tab-pane.fade#iamPermissionsTab(role="tabpanel")
+                        .fetching-message(ng-show="showSpinner" style="text-align: center; color: gray; padding-top: 50px;") 
+                            .spinner
+                        div(ng-show="!showSpinner")
+                            div(style="overflow: auto")
+                                .btn.btn-primary(style="margin: 20px 20px 0; float: right;" ng-click="addPermission()") 
+                                    i.fas.fa-certificate(style="font-size: 12px")
+                                    | &nbsp; Add permission
+                            table#permissionTable.table.table-striped.table-bordered.user-select-none(ng-repeat="table in tables" ng-if="data.permissions.length")
+                                thead
+                                    tr
+                                        th ID
+                                        th Name
+                                        th Title
+                                tbody
+                                    tr(ng-repeat="permission in data.permissions")
+                                        td(style="color: gray; font-size: 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 30px;" ng-attr-title="{{permission._id}}") {{ permission._id }}
+                                        td(ng-class="{ af: $first }") {{ permission.name }}
+                                        td {{ permission.title }}
+                            .no-users-message(ng-if="!data.permissions.length && !showSpinner" style="text-align: center") No permissions found.
+            #activitiesModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='gridSystemModalLabel')
+                .modal-dialog(role='document')
+                    .modal-content
+                        .modal-header
+                            h5#gridSystemModalLabel.modal-title {{ [activitiesUser.firstName, activitiesUser.lastName].join(' ') }}'s activity
+                            button.close(type='button', data-dismiss='modal', aria-label='Close')
+                            span(aria-hidden='true') ×
+                        .modal-body
+                            .activityTab
+                                input.activity-search(placeholder="Search in urls, bodies, statuses and methods..." ng-model-options="{debounce: 600}" ng-model="requestTerm" ng-change="loadUserActivities(activitiesUser)")
+                                .activity-pool
+                                    .fetching-message(ng-show="searchingRequests" style="text-align: center; color: gray; padding-top: 50px;") 
+                                        .spinner(style="width: 50px; height: 50px; font-size: 6px;")
+                                    .activity-request(ng-repeat="request in requests" ng-class="{selected: $parent.selectedRequest._id == request._id}" ng-click="$parent.selectedRequest = request")
+                                        .line-1
+                                            span {{request.method}}
+                                            b.url(ng-attr-title="{{request.url}}") &nbsp; {{request.url}}
+                                            span(style="float: right" ng-style="{ color: request.response.statusCode.toString()[0] == 2 ? 'green' : request.response.statusCode.toString()[0] == 3 ? 'blue' : 'red' }") {{request.response.statusCode}}
+                                        .line-2
+                                            span.request-time-ago(ng-attr-title="{{request.timestamp}}") {{request.timeAgo}}
+                                    div(ng-show="!searchingRequests && !requests.length" style="color: gray; padding: 20px; text-align: center;") No activity found
+                                    div(ng-show="!searchingRequests && requests.length" style="color: gray; padding: 20px; text-align: center;") Showing up to 50 most recent requests
+                            .view
+                                json-formatter(ng-show="selectedRequest" json="selectedRequest" open="1")
+                        .modal-footer
+                            button.btn.btn-secondary(type='button' data-dismiss='modal') Close

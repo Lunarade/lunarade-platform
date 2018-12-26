@@ -1,0 +1,34 @@
+.sidebar
+    .cr
+        span Lunarade &copy; 
+        span=new Date().getFullYear()
+    a.menu-item(ui-sref="app.dashboard" ui-sref-active="active" ng-show="permission('Dashboard.Read.All')")
+        i.fa.fa-home
+        span.title Dashboard
+    a.menu-item(ui-sref=".emails" ui-sref-active="active" ng-show="permission('Mail.Read.All')")
+        i.fa.fa-envelope
+        span.title Email History
+    a.menu-item(ui-sref="app.companies" ui-sref-active="active" ng-show="permission('Companies.ReadWrite.All') || permission('Companies.ReadWrite.Basic')")
+        i.fa.fa-building
+        span.title Company Manager
+    a.menu-item(ui-sref="app.deployments" ui-sref-active="active" ng-show="permission('Deployments.Read.All')")
+        i.fa.fa-history
+        span.title Deployment History
+    a.menu-item(ui-sref="app.store" ui-sref-active="active" ng-show="permission('Store.ReadWrite.All')")
+        i.fa.fa-shopping-basket
+        span.title Store Manager
+    a.menu-item(ui-sref="app.vodafone" ui-sref-active="active" ng-show="permission('VCL.Read.Debugger')")
+        i.fa.fa-bug
+        span.title Vodafone Debugger
+    a.menu-item(ui-sref="app.carddav" ui-sref-active="active" ng-show="permission('CardDAV.Read.All') || permission('CardDAV.ReadWrite.All')")
+        i.fa.fa-address-card
+        span.title CardDAV Debugger
+    a.menu-item(ui-sref="app.logBrowser" ui-sref-active="active" ng-show="permission('Logs.Read.All')")
+        i.fa.fa-book
+        span.title Log Browser
+    a.menu-item(ui-sref="app.monitors" ui-sref-active="active" ng-show="permission('Monitors.Read.All') || permission('Monitors.ReadWrite.All')")
+        i.fa.fa-heartbeat
+        span.title Monitors
+    a.menu-item(ui-sref="app.iam" ui-sref-active="active" ng-show="permission('IAM.ReadWrite.All')")
+        i.fa.fa-users
+        span.title IAM
